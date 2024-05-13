@@ -1,0 +1,25 @@
+
+.users-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    padding: 20px;
+    height: 100%;
+    gap: 20px;
+    
+}
+
+.user {
+    text-align: left;
+    padding: 20px;
+    box-shadow: 0 0 10px 0 rgba(0,0,0,0.1);
+    border-radius: 8px;
+    background: white;
+    display: flex;
+}
+
+.delete_user {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

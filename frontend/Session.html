@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="sessions.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <ul class="menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="users.html">Пользователи</a></li>
+                <li><a href="Session.html">Сессия</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <div class="sessions-container">
+            <label>Client_id</label>
+            <input id="session_id"></input>
+            <button id="loadbutton">Load</button>
+        </div>
+        <div class="sessions-container" id="sessions-container" onclick="">
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById("loadbutton").addEventListener("click", (event) => {
+                fetchData(document.getElementById("session_id").value)
+            })
+        });
+
+        function fetchData(client_id) {
+            fetch(`http://127.0.0.1:8000/sessionManager/${client_id}`) // Adjust this URL to your API endpoint
+                .then(response => response.json())
+                .then(data => updateUI(data))
+                .catch(error => console.error('Error fetching data:', error));
+        }
+
+        function updateUI(data) {
+            const container = document.getElementById('sessions-container');
+            container.innerHTML = ''; // Clear existing content if any
+            
+            const div = document.createElement('div');
+            div.className = 'session';
+            div.innerHTML = `
+                <h3>Распознание лица: ${data.identity}</h3>
+                <h3>Распознание речи: ${data.q || "None"}</h3>
+                <img src="data:image/png;base64, ${data.last_face}" alt="Last face" />
+            `;
+
+            container.appendChild(div);
+        }
+    </script>
+</body>
+</html>
